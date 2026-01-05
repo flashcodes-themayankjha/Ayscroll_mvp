@@ -1,20 +1,38 @@
+import { View, Dimensions, StyleSheet } from 'react-native';
 import { Video } from 'expo-av';
-import { View, Dimensions } from 'react-native';
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
-export default function ReelPlayer({ reel }: any) {
+type Props = {
+  reel: {
+    video_url: string;
+  };
+  paused: boolean;
+};
+
+export default function ReelPlayer({ reel, paused }: Props) {
   return (
-    <View style={{ height }}>
+    <View style={styles.container}>
       <Video
         source={{ uri: reel.video_url }}
+        style={styles.video}
         resizeMode="cover"
-        shouldPlay
+        shouldPlay={!paused}
         isLooping={false}
         useNativeControls={false}
-        style={{ height: '100%', width: '100%' }}
       />
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    height,
+    width,
+    backgroundColor: '#000',
+  },
+  video: {
+    height: '100%',
+    width: '100%',
+  },
+});
